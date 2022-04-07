@@ -281,6 +281,8 @@ export class VodFoundation extends cdk.Stack {
             handler: 'index.handler',
             timeout: cdk.Duration.seconds(30),
             retryAttempts:0,
+            deadLetterQueueEnabled: true,
+            memorySize: 512,
             description: 'Triggered by Cloudwatch Events,processes completed MediaConvert jobs.',
             environment: {
                 MEDIACONVERT_ENDPOINT: customResourceEndpoint.getAttString('Endpoint'),
