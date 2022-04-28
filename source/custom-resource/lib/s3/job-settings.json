@@ -582,7 +582,7 @@
           },
           "VideoSelector": {
             "ColorSpace": "FOLLOW",
-            "Rotate": "Automatic",
+            "Rotate": "AUTO",
             "AlphaBehavior": "DISCARD"
           },
           "FilterEnable": "AUTO",
