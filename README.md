@@ -17,7 +17,12 @@ The project is source/destination agnostic in the sense that both the bucket tha
 Expected to be plovpenninge
 #### Custom destination
 Can be whatever, current setup runs with the original streaming-solution output bucket.
-
+## Workflow
+Because Git gets confused
+1. Branch feature-branch from master
+2. push branch
+3. write code and test deploy through `git push --force origin my-branch:development`
+4. Merge my-branch into master
 ## Building and Bootstrapping
 (Ran from context of the source/cdk folder)
  - cdk bootstrap (only needed on first run)
