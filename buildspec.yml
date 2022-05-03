@@ -2,10 +2,11 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 14
     commands:
-      - npm -g install typescript
-      - npm update -g typescript
-      - npm install -g aws-cdk
+      - npm -g install typescript@4.5.3
+      - npm install -g aws-cdk@2.1.0
   build:
     commands:
       - cd source/cdk
