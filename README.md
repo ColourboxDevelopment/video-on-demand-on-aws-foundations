@@ -1,14 +1,18 @@
 # Colourbox Streaming
 
-### IMPORTANT NOTE:
-This project creates cloudfront for supplied bucket along with caching policy ect. All it requires is a DNS entry to point to the created cloudformation stack
 ## Overview
 The project is based off of a Video-On-Demand architecture builds [by AWS](https://aws.amazon.com/solutions/implementations/video-on-demand-on-aws/) which provides the base infrastructure in a CDK-compliant project on to which the streaming service is build.
 
 The API puts a message into a SQS queue which eventually results in the HLS files being put in a destination bucket, triggering a callback to the API containing the same identifier as the API initially provided with the SQS message.
 
+### Structure
+As this project heavily extends on an existing solution, a goal with the implementation for us is to ensure that it is easy to take in upstream changes with minimal conflicts.
+We want to be very careful not adding anything too custom, as that adds a potential ton of headache. For the same reason `cbx-additions-stack.ts` was added to avoid creating too many conflicts in the existing `vod-foundation-stack.ts`.
+### Subtitles
+Project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted.
 ### Configuration
-`/source/cdk/cdk.json` has config for both production (main) and beta (development)
+* `/source/cdk/cdk.json` - has config for both production (main) and beta (development)
+* `job-settings.json` - YAMl-file with encoding configuration. NOTE: THIS IS NOT UPDATED WITH A NEW DEPLOY. YOU HAVE TO MANUALLY SWAP THE FILE FOR A NEW.
 ### Colourbox API
 The API interacts through both SQS messaging and API-gateways (subtitle management / deletion of streams)
 ### Plugging
@@ -19,9 +23,9 @@ Expected to be plovpenninge
 Can be whatever, current setup runs with the original streaming-solution output bucket.
 ## Workflow
 Because Git gets confused
-1. Branch feature-branch from master
-2. push branch
-3. write code and test deploy through `git push --force origin my-branch:development`
+1. Branch feature-branch from main
+2. Write and commit code
+3. Test deploy to staging through `git push --force origin my-branch:development`
 4. Merge my-branch into master
 ## Building and Bootstrapping
 (Ran from context of the source/cdk folder)
@@ -48,7 +52,8 @@ Just like any cloudformation project, removing the project will remove all compo
 Application has from AWS-authors 2 custom-resource-backed lambdas.
 These currently (2021-08-26) don't include support for their own teardown, so their deletion processes will hang (time out after 1 hour) and the deletion will fail. To fix this, follow this: https://www.youtube.com/watch?v=hlJkMoCxR-I
 
-## Running test-version for debugging
+## Spinning up test-version
+*Are you sure you can't just debug by pushing changes to the development branch?*
 ```
 -c destination_bucket_name=claus-destination
 -c api_host=claus-api.cbx.xyz
@@ -109,6 +114,8 @@ Bucket-permissions -> Bucket-CORS:
     }
 ]
 ```
+
+## /end of custom docs
 
 # Video on Demand on AWS Foundation
 
