@@ -8,6 +8,24 @@ The API puts a message into a SQS queue which eventually results in the HLS file
 ### Structure
 As this project heavily extends on an existing solution, a goal with the implementation for us is to ensure that it is easy to take in upstream changes with minimal conflicts.
 We want to be very careful not adding anything too custom, as that adds a potential ton of headache. For the same reason `cbx-additions-stack.ts` was added to avoid creating too many conflicts in the existing `vod-foundation-stack.ts`.
+### Cleanup
+#### On media deletion
+When a media is deleted any stream and subtitle related to it, is deleted.
+#### Fallback
+The CRON-job
+```
+cleanup_eradicated_streams.php
+```
+Daily removed all streams, for which the underlying media has been removed.
+
+### Warnings/Alarms
+* [Video stream encoding alarm](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#alarmsV2:alarm/stream-completion-failure?) - Reports the AWS-flow failing by monitoring SQS deadletter queue
+* [Video stream flow callback alarm](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#alarmsV2:alarm/Video-streaming+completion-callback+failure?) - Reports the cloud-process being unable to notify the API of a successfully concluded stream job, by monitoring SQS deadletter queue
+### Debugging
+To find where the encoding-flow might be breaking for a file, the `streaming-creation-lifecycle` in [claus_prod_logs](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#dashboards:name=claus_prod_logs) can give an overview.
+The table will always be empty, but intended use it to `View in CloudWatch Logs Insights` and here update the unique-media-id in the query, and then scan.
+
+This looks for entries for the media across the multiple logs that span the project. Comparing a "healhty"-job to a "broken"-job makes it much easier to see where it is failing.
 ### Subtitles
 Project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted.
 ### Configuration
