@@ -27,7 +27,7 @@ The table will always be empty, but intended use it to `View in CloudWatch Logs 
 
 This looks for entries for the media across the multiple logs that span the project. Comparing a "healhty"-job to a "broken"-job makes it much easier to see where it is failing.
 ### Subtitles
-Project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted.
+The overall subtitle flow is only party owned by this project. The project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted, which is used by the API. The storage and use of subtitles is handled else where. More info can be found in the [sysadmin wiki](https://github.com/ColourboxDevelopment/sysadmin-wiki)
 ### Configuration
 * `/source/cdk/cdk.json` - has config for both production (main) and beta (development)
 * `job-settings.json` - YAMl-file with encoding configuration. NOTE: THIS IS NOT UPDATED WITH A NEW DEPLOY. YOU HAVE TO MANUALLY SWAP THE FILE FOR A NEW.
