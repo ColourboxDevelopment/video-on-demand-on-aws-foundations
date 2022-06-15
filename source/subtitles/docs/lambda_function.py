@@ -35,6 +35,7 @@ def lambda_handler(event, context):
     r = requests.get(docs_url)
     logger.info("REQUEST RETURNED")
     r.raise_for_status()
+    logger.info("RAISED FOR STATUS, NOW RETURNING")
     return {
             "statusCode": 200,
             "body": r.text,
