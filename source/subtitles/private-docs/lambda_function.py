@@ -26,6 +26,7 @@ def get_api_credentials():
     return (key, secret)
 
 def lambda_handler(event, context):
+    logger.info("ARE WE EVEN HERE?!")
     key, secret = get_api_credentials()
     api = API(key, secret, base_url = docs_url)
     logger.info("initialized client")
