@@ -31,6 +31,8 @@ The overall subtitle flow is only party owned by this project. The project suppo
 ### Configuration
 * `/source/cdk/cdk.json` - has config for both production (main) and beta (development)
 * `job-settings.json` - YAMl-file with encoding configuration. NOTE: THIS IS NOT UPDATED WITH A NEW DEPLOY. YOU HAVE TO MANUALLY SWAP THE FILE FOR A NEW.
+### Security
+Public facing API-gateway, used for subtitle encoding and deleting a stream, is secured by a simple header key `x-api-key`
 ### Colourbox API
 The API interacts through both SQS messaging and API-gateways (subtitle management / deletion of streams)
 ### Plugging
