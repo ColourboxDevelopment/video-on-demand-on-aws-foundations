@@ -8,6 +8,14 @@ The API puts a message into a SQS queue which eventually results in the HLS file
 ### Structure
 As this project heavily extends on an existing solution, a goal with the implementation for us is to ensure that it is easy to take in upstream changes with minimal conflicts.
 We want to be very careful not adding anything too custom, as that adds a potential ton of headache. For the same reason `cbx-additions-stack.ts` was added to avoid creating too many conflicts in the existing `vod-foundation-stack.ts`.
+
+#### API gateway
+* API gateway
+
+    `DELETE /streaming/{url}` - Deletes S3 stream content
+
+    `GET /subtitles` - 
+
 ### Cleanup
 #### On media deletion
 When a media is deleted any stream and subtitle related to it, is deleted.
