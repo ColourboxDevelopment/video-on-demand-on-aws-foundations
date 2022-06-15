@@ -22,12 +22,12 @@ Daily removed all streams, for which the underlying media has been removed.
 * [Video stream encoding alarm](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#alarmsV2:alarm/stream-completion-failure?) - Reports the AWS-flow failing by monitoring SQS deadletter queue
 * [Video stream flow callback alarm](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#alarmsV2:alarm/Video-streaming+completion-callback+failure?) - Reports the cloud-process being unable to notify the API of a successfully concluded stream job, by monitoring SQS deadletter queue
 ### Debugging
-To find where the encoding-flow might be breaking for a file, the `streaming-creation-lifecycle` in [claus_prod_logs](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#dashboards:name=claus_prod_logs) can give an overview.
+To find where the encoding-flow might be breaking for a file, the `streaming-creation-lifecycle` in [prod_logs](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#dashboards:name=access_n_error_logs-prod) can give an overview. Similarily for dev videos run through the dev-flow can be tracked in the [dev_logs](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#dashboards:name=access_n_error_logs-dev) under same-titled table.
 The table will always be empty, but intended use it to `View in CloudWatch Logs Insights` and here update the unique-media-id in the query, and then scan.
 
 This looks for entries for the media across the multiple logs that span the project. Comparing a "healhty"-job to a "broken"-job makes it much easier to see where it is failing.
 ### Subtitles
-The overall subtitle flow is only party owned by this project. The project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted, which is used by the API. The storage and use of subtitles is handled else where. More info can be found in the [sysadmin wiki](https://github.com/ColourboxDevelopment/sysadmin-wiki)
+The overall subtitle flow is only party owned by this project. The project supports subtitle-conversions through an api-gateway which takes a subtitle and returns a converted, which is used by the API. The storage and use of subtitles is handled else where. More info can be found in the [sysadmin wiki subtitles](https://github.com/ColourboxDevelopment/sysadmin-wiki/blob/master/journals/video-streaming-subtitles.md)
 ### Configuration
 * `/source/cdk/cdk.json` - has config for both production (main) and beta (development)
 * `job-settings.json` - YAMl-file with encoding configuration. NOTE: THIS IS NOT UPDATED WITH A NEW DEPLOY. YOU HAVE TO MANUALLY SWAP THE FILE FOR A NEW.
@@ -71,7 +71,7 @@ Application has from AWS-authors 2 custom-resource-backed lambdas.
 These currently (2021-08-26) don't include support for their own teardown, so their deletion processes will hang (time out after 1 hour) and the deletion will fail. To fix this, follow this: https://www.youtube.com/watch?v=hlJkMoCxR-I
 
 ## Spinning up test-version
-*Are you sure you can't just debug by pushing changes to the development branch?*
+For cases where existing development setup isn't sufficient, it's also an option to spin up a new stack.
 ```
 -c destination_bucket_name=claus-destination
 -c api_host=claus-api.cbx.xyz
