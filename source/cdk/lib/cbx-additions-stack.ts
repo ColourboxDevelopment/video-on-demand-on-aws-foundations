@@ -146,29 +146,6 @@ export class CbxAddition extends cdk.Stack {
             resources: [`arn:${cdk.Aws.PARTITION}:mediaconvert:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:*`]
         }))
 
-        const subtitlePublicDocsLambda = new lambda.Function(this, `subtitle-docs-${branch}`, {
-            runtime: lambda.Runtime.PYTHON_3_7,
-            code: lambda.Code.fromAsset('../subtitles/docs'),
-            handler: 'lambda_function.lambda_handler',
-            role: docsAccessRole,
-            environment: {
-                'API_URL': "https://api.colourbox.com/docs.yml",
-            },
-            logRetention: RetentionDays.ONE_MONTH,
-            initialPolicy: [
-                ssmRootKeySsmPolicy,
-                kmsRootKeyDecryptPolicy
-            ]
-        })
-
-        const subtitlePrivateDocsLambda = new lambda.Function(this, `subtitle-private-docs-${branch}`, {
-            runtime: lambda.Runtime.PYTHON_3_7,
-            code: lambda.Code.fromAsset('../subtitles/private-docs'),
-            handler: 'lambda_function.lambda_handler',
-            role: docsAccessRole,
-            logRetention: RetentionDays.ONE_MONTH
-        })
-
         const streamingApi = new RestApi(this, `streaming-api-${branch}`, {
             restApiName: `streaming-api-${branch}`,
         })
@@ -184,12 +161,7 @@ export class CbxAddition extends cdk.Stack {
         usagePlan.addApiKey(apiKey)
 
         const subtitles = streamingApi.root.addResource("subtitles")
-        subtitles.addMethod('GET', new LambdaIntegration(subtitlePublicDocsLambda, {proxy: true}), {apiKeyRequired: true})
         subtitles.addMethod('POST', new LambdaIntegration(subtitleConversionLambda, {proxy: true}), {apiKeyRequired: true})
-        subtitles.addResource('3ea062c1-72cc-4f29-b4a8-b66d8276eb64')
-            .addMethod('GET', new LambdaIntegration(subtitlePrivateDocsLambda, {proxy: true}), {apiKeyRequired: true})
-        subtitles.addResource('public-docs')
-            .addMethod('GET', new LambdaIntegration(subtitlePublicDocsLambda, {proxy: true}), {apiKeyRequired: true})
         streamingApi.root.addResource("streaming")
             .addResource("{url}")
             .addMethod('DELETE', new LambdaIntegration(videoDeleteLambda, {proxy: true}), {apiKeyRequired: true})
