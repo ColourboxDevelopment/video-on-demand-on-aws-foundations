@@ -14,7 +14,7 @@ We want to be very careful not adding anything too custom, as that adds a potent
 
     `DELETE /streaming/{url}` - Deletes S3 stream content
 
-    `GET /subtitles` - 
+    `POST /subtitles` - Converts subtitle files
 
 ### Cleanup
 #### On media deletion
