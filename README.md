@@ -61,6 +61,13 @@ Because Git gets confused
  - cdk deploy
 Note: using this directly is discouraged, use the normal git-procedure and rely on CICD setup instead.
 
+### Customer statistics
+Run the following Athena query to see how many bytes a company have used
+`SELECT sum(bytes) FROM "cfbillingprod_cf_access_logs_db"."combined" where host = 'd8no9ehofwbfg.cloudfront.net' and (uri LIKE '%AppleHLS1/stream-213697-%' or uri LIKE '%prod_213697-%')
+and MONTH(date) = 9 and YEAR(date) = 2022`
+
+Remember to change `213697` to the correct company ID and the month/year. NOte, if you wonder why we check for two different URIs, it is because an update from AWS (moving it into CDK, etc) changed the format of the URI generated. 
+
 ## Parts
 `streaming-immutable-development`:
 
