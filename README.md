@@ -94,10 +94,11 @@ For cases where existing development setup isn't sufficient, it's also an option
 -c api_host=claus-api.cbx.xyz
 -c stream_host=https://dpv7mez7ofol6.cloudfront.net
 ```
-`
+
+```
 cdk deploy -c destination_bucket_name=claus-destination -c api_host=claus-api.cbx.xyz stream_host=https://dpv7mez7ofol6.cloudfront.net --all
 cdk synth -c destination_bucket_name=claus-destination -c api_host=claus-api.cbx.xyz stream_host=https://dpv7mez7ofol6.cloudfront.net --all
-`
+```
 ## Supported file-types
 See `source/custom-resource/lib/s3/index.js`
 
