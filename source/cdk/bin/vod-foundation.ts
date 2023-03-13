@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import {App, Fn, Tags} from 'aws-cdk-lib'
 import {VodFoundation} from '../lib/vod-foundation-stack';
 import {CbxAddition} from "../lib/cbx-additions-stack";
 import {StreamingImmutable} from "../lib/immutable";
@@ -12,7 +12,7 @@ if (branch == undefined || !(['main', 'development'].includes(branch))) {
 }
 console.log(`building for "${branch}"`)
 
-const app = new cdk.App();
+const app = new App();
 
 const DESTINATION_BUCKET_NAME: string = app.node.tryGetContext(branch).destination_bucket_name;
 const API_HOST: string = app.node.tryGetContext(branch).api_host;
@@ -27,6 +27,7 @@ const base = new VodFoundation(
     `streaming-mutable-defaults-${branch}`
 );
 
+/* Below is outcommented until it has been migrated to CDK V2 as well
 new CbxAddition(
     immutable.getApiKey(),
     base.getDestinationBucket(),
@@ -40,3 +41,4 @@ new CbxAddition(
     app,
     `streaming-mutable-custom-${branch}`
 )
+*/

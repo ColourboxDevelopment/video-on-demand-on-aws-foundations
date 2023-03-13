@@ -1,18 +1,15 @@
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import {Duration, RemovalPolicy} from '@aws-cdk/core';
-import * as s3 from '@aws-cdk/aws-s3';
-import {IBucket} from '@aws-cdk/aws-s3';
-import * as iam from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-/**
- * AWS Solution Constructs: https://docs.aws.amazon.com/solutions/latest/constructs/
- */
-import * as Cloudfront from '@aws-cdk/aws-cloudfront';
-import {ViewerProtocolPolicy} from '@aws-cdk/aws-cloudfront';
-import {EventsRuleToLambda} from '@aws-solutions-constructs/aws-events-rule-lambda';
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
+import { IBucket } from 'aws-cdk-lib/aws-s3';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_cloudfront as Cloudfront } from 'aws-cdk-lib';
+import {EventbridgeToLambda} from '@aws-solutions-constructs/aws-eventbridge-lambda';
 import {LambdaToSns} from '@aws-solutions-constructs/aws-lambda-sns';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
+import { aws_cloudfront_origins as origins } from 'aws-cdk-lib';
 import {WhiteList} from "./white-list";
+import { Construct } from 'constructs';
 
 
 export class VodFoundation extends cdk.Stack {
@@ -42,7 +39,7 @@ export class VodFoundation extends cdk.Stack {
         return this.destinationBucket
     }
 
-    constructor(destinationBucketName: string, scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    constructor(destinationBucketName: string, scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
         /**
          * CloudFormation Template Descrption
@@ -95,7 +92,7 @@ export class VodFoundation extends cdk.Stack {
             lifecycleRules: [{
                 enabled: true,
                 prefix: "assets01/stream-",
-                expiration: Duration.days(30)
+                expiration: cdk.Duration.days(30)
             }]
         });
         this.sourceBucket = source
@@ -130,7 +127,7 @@ export class VodFoundation extends cdk.Stack {
                 origin: new origins.S3Origin(destination),
                 allowedMethods: Cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
                 compress: false,
-                viewerProtocolPolicy: ViewerProtocolPolicy.ALLOW_ALL,
+                viewerProtocolPolicy: Cloudfront.ViewerProtocolPolicy.ALLOW_ALL,
                 smoothStreaming: true,
                 originRequestPolicy: {
                     originRequestPolicyId: op.originRequestPolicyId
@@ -338,7 +335,7 @@ export class VodFoundation extends cdk.Stack {
          * Solution constructs, creates a CloudWatch event rule to trigger the process
          * outputs lambda functions.
          */
-        new EventsRuleToLambda(this, 'EventTrigger', {
+        new EventbridgeToLambda(this, 'EventTrigger', {
             existingLambdaObj: jobComplete,
             eventRuleProps: {
                 enabled: true,
