@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import {Duration, RemovalPolicy} from '@aws-cdk/core';
+import {Duration, RemovalPolicy} from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';   
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { aws_iam as iam } from 'aws-cdk-lib';

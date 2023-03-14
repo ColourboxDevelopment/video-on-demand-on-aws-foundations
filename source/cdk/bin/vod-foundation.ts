@@ -27,7 +27,6 @@ const base = new VodFoundation(
     `streaming-mutable-defaults-${branch}`
 );
 
-/* Below is outcommented until it has been migrated to CDK V2 as well
 new CbxAddition(
     immutable.getApiKey(),
     base.getDestinationBucket(),
@@ -41,4 +40,3 @@ new CbxAddition(
     app,
     `streaming-mutable-custom-${branch}`
 )
-*/
