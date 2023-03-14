@@ -2,8 +2,8 @@
   "app": "npx ts-node bin/vod-foundation.ts",
   "context": {
     "development": {
-      "destination_bucket_name": "claus-destination",
-      "api_host": "https://claus-api.cbx.xyz",
+      "destination_bucket_name": "streaming-dev-destination",
+      "api_host": "https://test-api.cbx.xyz",
       "stream_host": "https://dlsxw0w3exqhl.cloudfront.net",
       "src_bucket_name": "colourbox.plovpenning.file.test"
     },
