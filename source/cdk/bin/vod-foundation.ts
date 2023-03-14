@@ -7,7 +7,7 @@ import {StreamingImmutable} from "../lib/immutable";
 
 const branch = process.env.BUILD_BRANCH
 
-if (branch == undefined || !(['main', 'development'].includes(branch))) {
+if (branch == undefined || !(['main', 'staging'].includes(branch))) {
     throw new Error(`"${branch}" is not a valid deployment target. Did you forget to set env var BUILD_BRANCH?`)
 }
 console.log(`building for "${branch}"`)
