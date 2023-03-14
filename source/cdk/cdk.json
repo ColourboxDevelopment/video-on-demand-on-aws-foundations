@@ -4,7 +4,7 @@
     "staging": {
       "destination_bucket_name": "streaming-dev-destination",
       "api_host": "https://test-api.cbx.xyz",
-      "stream_host": "https://video-staging.skyfish.com",
+      "stream_host": "https://dr83c96bo5hiw.cloudfront.net",
       "src_bucket_name": "colourbox.plovpenning.file.test"
     },
     "main": {
