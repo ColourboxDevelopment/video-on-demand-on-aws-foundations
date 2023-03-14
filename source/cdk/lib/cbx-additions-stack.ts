@@ -133,7 +133,8 @@ export class CbxAddition extends cdk.Stack {
                 queue: ingestDeadQueue,
                 maxReceiveCount: 2
             },
-            removalPolicy: RemovalPolicy.RETAIN
+            removalPolicy: RemovalPolicy.RETAIN,
+            visibilityTimeout: Duration.seconds(120)
         });
 
         const ingestEventSource = new lambdaEventSources.SqsEventSource(ingestQueue);
