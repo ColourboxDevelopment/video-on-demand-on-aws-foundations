@@ -153,7 +153,7 @@ export class CbxAddition extends cdk.Stack {
         })
 
         const usagePlan = streamingApi.addUsagePlan('streaming-api-usageplan', {
-            name: `cdk_api_usageplan_${branch}`,
+            name: `streaming_cdk_api_usageplan_${branch}`,
             apiStages: [{
                 api: streamingApi,
                 stage: streamingApi.deploymentStage,
