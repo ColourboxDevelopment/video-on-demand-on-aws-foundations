@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import {App, Fn, Tags} from 'aws-cdk-lib'
 import {VodFoundation} from '../lib/vod-foundation-stack';
 import {CbxAddition} from "../lib/cbx-additions-stack";
 import {StreamingImmutable} from "../lib/immutable";
 
 const branch = process.env.BUILD_BRANCH
 
-if (branch == undefined || !(['main', 'development'].includes(branch))) {
+if (branch == undefined || !(['main', 'staging'].includes(branch))) {
     throw new Error(`"${branch}" is not a valid deployment target. Did you forget to set env var BUILD_BRANCH?`)
 }
 console.log(`building for "${branch}"`)
 
-const app = new cdk.App();
+const app = new App();
 
 const DESTINATION_BUCKET_NAME: string = app.node.tryGetContext(branch).destination_bucket_name;
 const API_HOST: string = app.node.tryGetContext(branch).api_host;

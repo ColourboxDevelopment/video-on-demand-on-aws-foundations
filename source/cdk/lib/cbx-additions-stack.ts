@@ -1,15 +1,16 @@
-import * as cdk from "@aws-cdk/core";
-import {Duration, RemovalPolicy} from "@aws-cdk/core";
-import * as lambda from '@aws-cdk/aws-lambda';
-import {LayerVersion} from '@aws-cdk/aws-lambda';
-import * as iam from '@aws-cdk/aws-iam'
-import * as sqs from '@aws-cdk/aws-sqs';
-import {RetentionDays} from "@aws-cdk/aws-logs";
-import {ApiKey, LambdaIntegration, RestApi} from "@aws-cdk/aws-apigateway"
-import * as lambdaEventSources from '@aws-cdk/aws-lambda-event-sources';
+import * as cdk from 'aws-cdk-lib';
+import {Duration, RemovalPolicy} from "aws-cdk-lib";
+import { aws_lambda as lambda } from "aws-cdk-lib";
+import {LayerVersion} from 'aws-cdk-lib/aws-lambda';
+import { aws_iam as iam } from "aws-cdk-lib";
+import { aws_sqs as sqs } from "aws-cdk-lib";
+import {RetentionDays} from "aws-cdk-lib/aws-logs";
+import {ApiKey, LambdaIntegration, RestApi} from "aws-cdk-lib/aws-apigateway"
+import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import {LambdaToSns} from "@aws-solutions-constructs/aws-lambda-sns";
-import * as s3 from "@aws-cdk/aws-s3";
-import {IBucket} from "@aws-cdk/aws-s3";
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
+import { IBucket } from 'aws-cdk-lib/aws-s3';
+import { Construct } from "constructs";
 
 export class CbxAddition extends cdk.Stack {
     constructor(
@@ -22,7 +23,7 @@ export class CbxAddition extends cdk.Stack {
         mediaConvertEndpoint: string,
         encodingComplete: LambdaToSns,
         branch: string,
-        scope: cdk.Construct,
+        scope: Construct,
         id: string,
         props?: cdk.StackProps
     ) {
@@ -70,7 +71,7 @@ export class CbxAddition extends cdk.Stack {
             layers: [dependency_layer],
             retryAttempts: 2,
             deadLetterQueueEnabled: true,
-            timeout: Duration.seconds(10),
+            timeout: cdk.Duration.seconds(10),
             environment: {
                 'HOST': apiHost,
                 'MEDIA_CONVERT_ENDPOINT': mediaConvertEndpoint,
@@ -132,7 +133,8 @@ export class CbxAddition extends cdk.Stack {
                 queue: ingestDeadQueue,
                 maxReceiveCount: 2
             },
-            removalPolicy: RemovalPolicy.RETAIN
+            removalPolicy: RemovalPolicy.RETAIN,
+            visibilityTimeout: Duration.seconds(120)
         });
 
         const ingestEventSource = new lambdaEventSources.SqsEventSource(ingestQueue);

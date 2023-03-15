@@ -1,13 +1,10 @@
 {
   "app": "npx ts-node bin/vod-foundation.ts",
   "context": {
-    "@aws-cdk/core:enableStackNameDuplicates": "true",
-    "aws-cdk:enableDiffNoFail": "true",
-    "@aws-cdk/core:stackRelativeExports": "true",
-    "development": {
-      "destination_bucket_name": "claus-destination",
-      "api_host": "https://claus-api.cbx.xyz",
-      "stream_host": "https://dlsxw0w3exqhl.cloudfront.net",
+    "staging": {
+      "destination_bucket_name": "streaming-dev-destination",
+      "api_host": "https://test-api.cbx.xyz",
+      "stream_host": "https://dr83c96bo5hiw.cloudfront.net",
       "src_bucket_name": "colourbox.plovpenning.file.test"
     },
     "main": {
